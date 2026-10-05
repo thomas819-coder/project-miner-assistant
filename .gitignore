@@ -220,37 +220,43 @@ __marimo__/
 # -----------------------------------------------------------------------
 # Project-specific settings
 
-# Data stored on Hugging Face Hub
+# Data from Hugging Face Hub — track only .json files
 data/raw/*
-!data/raw/README.md
+!data/raw/*.json
 !data/raw/.gitkeep
 
-# Data created within the project
+# Processed data — track .json files and chromadb directory
 data/processed/*
+!data/processed/*.json
+!data/processed/chroma_db/
 !data/processed/.gitkeep
 
-# Data necessary for README, METHODOLOGY
+# Assets — track .png and .html files
 data/assets/*
 !data/assets/*.png
+!data/assets/*.html
 !data/assets/.gitkeep
 
-# Scratch/experimental notebooks — not meant for public repo
+# Scratch/experimental notebooks
 scratch/
 
-# Results
+# Results/diagnostics
 results/diagnostics/*
 !results/diagnostics/*.png
 !results/diagnostics/.gitkeep
 
+# Results/figures — track .png and .html files
 results/figures/*
 !results/figures/*.png
+!results/figures/*.html
 !results/figures/.gitkeep
 
+# Results/tables
 results/tables/*
 !results/tables/*.png
 !results/tables/.gitkeep
 
-# Necessery folders for my-template-repo
+# Necessary folders
 !app/.gitkeep
 !notebooks/.gitkeep
 
