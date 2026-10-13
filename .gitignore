@@ -253,7 +253,8 @@ results/figures/*
 
 # Results/tables
 results/tables/*
-!results/tables/*.png
+!results/tables/*.json
+!results/tables/*.txt
 !results/tables/.gitkeep
 
 # Necessary folders

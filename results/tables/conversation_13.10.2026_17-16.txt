@@ -1,0 +1,79 @@
+[13.10.2026 17:15:25]
+Q: Ako sa vypočítal lift?
+
+A: Lift sa počítal ako pomer priemeru v danej skupine voči celkovému priemeru.
+
+- **Rizikové skupiny (buckets):** v každej z 200 iterácií sa z každej skupiny náhodne vybralo 50 záznamov. Lift = priemerný „evidence" (dôkazový signál) v skupine / globálny priemer. Výsledné hodnoty sa zobrazili v boxplote (lift_distribution.png).
+- **Doménový profil (shipping/discount):** pre štyri modely sa vzal top 1 % záznamov. V nich sa spočítal priemerný surový signál pre dopravu (shipping) a zľavu (discount). Lift je tento priemer voči globálnemu priemeru.
+
+Kontext neuvádza presný vzorec ani to, ako je definovaný „evidence" signál nad rámec uvedeného.
+----------------------------------------
+
+[13.10.2026 17:15:36]
+Q: Spomenul si priemerný signál dopravy (shipping) a zľavy (discount). Ako sa vypočítali tieto ukazovatele?
+
+A: Stručne: pre každý z modelov sa vzal top 1 % najpodozrivejších záznamov a v nich sa spočítal priemer surových signálov dopravy a zľavy. Lift je potom tento priemer voči globálnemu priemeru.
+
+**Domain profile (porovnanie modelov)**
+- Pre štyri modely sa znovu vytvorili masky top 1 %.
+- V top 1 % sa vypočítal priemer surového signálu dopravy (`shipping_anomaly_raw`) a zľavy (`discount_anomaly_raw`).
+- Lift = priemer v top 1 % voči globálnemu priemeru. Výsledky sa uložili do `model_domain_profile.csv`.
+
+**Surový signál dopravy (`shipping_anomaly_raw`)**
+- Najprv sa spočíta `shipping_delay` ako skutočné mínus plánované trvanie dodania.
+- K dátam sa pripoja štatistiky podľa spôsobu dopravy (Shipping Mode) a trhu (Market).
+- `shipping_deviation` je odchýlka od mediánu danej skupiny.
+- `shipping_anomaly_raw` = absolútna odchýlka / (IQR + 1e-5), teda robustné škálovanie.
+- Po feature engineeringu je hodnota zhora ohraničená približne na 1,0.
+
+**Surový signál zľavy (`discount_anomaly_raw`)**
+- Kontext neuvádza, ako sa presne počíta. Uvádza len, že jeho maximum je približne 5.
+
+**Percentilové poradie**
+- Pre interpretáciu sa z oboch surových signálov vytvoria aj percentilové poradia. Baseline skóre je maximum z týchto dvoch poradí.
+
+**Výsledné lifty**
+- Baseline a Isolation Forest: lift zľavy ~3,8, lift dopravy ~1.
+- LOF: slabší (1,18).
+- PCA: blízko nuly.
+----------------------------------------
+
+[13.10.2026 17:15:53]
+Q: Povedz mi základné informácie o market-event-impact
+
+A: Ide o projekt, ktorý analyzuje vplyv 21 makroekonomických udalostí na index DAX a menový pár EUR/USD v troch krízových obdobiach (2020–2026).
+
+**Dáta a príprava**
+- Použité sú minútové (1-minútové) dáta DAX a EUR/USD a kalendár makroekonomických oznámení.
+- Z približne 89 000 oznámení sa podľa výberových kritérií vybralo 21 finálnych udalostí.
+- Okolo každej udalosti sa vytvárajú okná s OHLC dátami v časových rámcoch M1 až M60.
+- Datasety majú spolu približne 477 MB a sú uložené na Hugging Face.
+
+**Metódy**
+- Porovnávajú sa modely GARCH a GJR-GARCH (AIC, BIC, perzistencia, konvergencia).
+- GJR-GARCH vychádza lepšie v ~19 % okien udalostí, podobne v ~73 % a GARCH lepšie v ~8 %.
+
+**Hlavné zistenia**
+- Najväčšie výkyvy spôsobujú rozhodnutia ECB o sadzbách a americký NFP.
+- DAX reaguje pomalšie ako EUR/USD.
+- Volatilita závisí od režimu: rozlišujú sa pokojné a stresové obdobia s dlhými chvostmi rozdelenia.
+- Jednotný prístup k riadeniu rizika preto nefunguje, vhodnejšie je dynamické riadenie rizika.
+
+**Reprodukcia a štruktúra**
+- Postup: naklonovať repozitár, nainštalovať závislosti, spustiť hlavný pipeline skript a skontrolovať výstupy vrátane notebooku o režimoch volatility.
+- Repozitár obsahuje adresáre pre konfiguráciu, notebooky, výsledky, skripty a zdrojové moduly.
+- K dispozícii sú aj voliteľné notebooky na prípravu dát.
+
+Kontext neuvádza podrobnosti o tom, aké konkrétne knižnice sa používajú, ani čo presne obsahujú jednotlivé kroky workflow.
+----------------------------------------
+
+[13.10.2026 17:16:02]
+Q: Koľko stojí čaj v obchode?
+
+A: Kontext neobsahuje informáciu o cene čaju v obchode.
+----------------------------------------
+
+[13.10.2026 17:16:11]
+Q: Koľko stojí čaj v obchode?
+
+A: Kontext neobsahuje informáciu o cene čaju v obchode.
